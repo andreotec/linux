@@ -1,0 +1,11 @@
+#Instalação do gerenciador de login Slim para ArchLinux com XFCE.
+pacman -S slim slim-themes
+systemctl enable slim.services
+#Criar o arquivo oculto .xinitrc com o seguinte conteúdo.
+echo "exec startxfce4" > /home/andreo/.xinitrc
+#Editar o arquivo slim.conf no diretório /etc.
+#Na linha 77 descomente a opção auto_login estando assim:
+auto-login no
+#Logo abaixo na linha 82 current_theme mude default para archlinux:
+current_theme archlinux
+#Agora é só reiniciar.
