@@ -1,0 +1,54 @@
+Para instalarmos o tema Numix, abra um terminal e edite o pacman.conf:
+
+# vi /etc/pacman.conf
+
+Adicione, ao final, as seguintes linhas:
+
+[archlinuxfr]
+SigLevel = Never
+Server = http://repo.archlinux.fr/$arch
+
+Salve e feche o arquivo.
+
+Se usou o editor vi, e não lembra como fazer isso, aqui está o resumo:
+
+Após executar o comando acima:
+
+    Tecle: i
+    Adicione as linhas que foram citadas, tecle: Esc
+    Depois, digite: :wq
+    E pressione: Enter
+
+
+Para mais informações sobre repositórios não oficiais do Arch Linux, leia:
+
+    Unofficial user repositories ArchWiki
+
+
+Para mais informações sobre o parâmetro SigLevel = Never, leia:
+
+    pacman-key ArchWiki
+
+
+Agora, atualize o Pacman com:
+
+# pacman -Syy
+
+Para mais informações sobre este comando, leia:
+
+    Pacman An Introduction ArchWiki
+
+
+nstale o Yaourt:
+
+# pacman -S yaourt
+
+Para mais informações sobre o Yaourt, leia:
+
+    Yaourt ArchWiki
+
+
+Agora, execute:
+
+$ yaourt -S numix-themes-git
+$ yaourt -S numix-circle-icon-theme-git
