@@ -1,0 +1,13 @@
+modprobe tun
+tunctl -t tap0
+brctl addbr br0
+brctl addif br0 tap0
+ifconfig br0 192.168.0.1 netmask 255.255.255.0 up
+ifconfig tap0 up
+iptables -I INPUT -m state --state NEW -i tap0 -j ACCEPT
+iptables -I INPUT -m state --state NEW -i br0 -j ACCEPT
+cat >> /etc/rinetd.conf << EOF 192.168.0.1 9050 127.0.0.1 9050 
+EOF
+services rinetd restart
+qemu-system-i386  -boot d -m 1024 --enable-kvm -cdrom distro.iso -net nic,vlan=1,ifname=tap0,mac=00:aa:60:01:00,model=e1000 -net tap,vlan=1,ifname=tap0,script=no -vga std
+

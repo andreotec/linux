@@ -13,6 +13,7 @@ echo "Executando as mudanças.."
       mv sethc1 cmd.exe
 echo "PRONTO"
 sleep 2
+cp changecmd /mnt/disk
 clear
 echo "Agora reinicie e depois na tela de logon pressione a tecla shift até aparecer o prompt do windows"
 echo "Execute 'control userpasswords2'"
