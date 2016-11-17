@@ -36,7 +36,7 @@ def sigint_handler(signum, frame):
 
 def logo():
 	os.system("clear")
-	print bcolors.RED + bcolors.BOLD
+	print bcolors.BLUE + bcolors.BOLD
 	print """
       _____           ____ _               _
      |_   _|__  _ __ / ___| |__   ___  ___| |_
@@ -111,8 +111,11 @@ def start_torghost():
 	TOR_UID=%s
 	TRANS_PORT="9040"
 
-	iptables -F
-	iptables -t nat -F
+#	iptables -F
+#	iptables -t nat -F
+#	iptables -P INPUT DROP
+#	iptables -P FORWARD DROP
+#	iptables -P OUTPUT DROP
 
 	iptables -t nat -A OUTPUT -m owner --uid-owner $TOR_UID -j RETURN
 	iptables -t nat -A OUTPUT -p udp --dport 53 -j REDIRECT --to-ports 53
@@ -138,13 +141,65 @@ def stop_torghost():
 	print bcolors.RED+t()+"STOPPING torghost"+bcolors.ENDC
 	print t()+" Flushing iptables, resetting to default",
 	IpFlush = """
-	iptables -P INPUT ACCEPT
-	iptables -P FORWARD ACCEPT
-	iptables -P OUTPUT ACCEPT
+
+
 	iptables -t nat -F
 	iptables -t mangle -F
-	iptables -F
+	iptables -F	
 	iptables -X
+
+ipt=iptables
+ip6=ip6tables
+
+$ipt -F
+$ipt -Z
+$ipt -X
+
+$ipt -P INPUT DROP 
+$ipt -P FORWARD DROP 
+$ipt -P OUTPUT ACCEPT
+$ip6 -P INPUT DROP 
+$ip6 -P FORWARD DROP 
+$ip6 -P OUTPUT DROP
+$ipt -N TCP 
+$ipt -N syn_flood
+$ipt -N UDP 
+
+$ipt -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+$ipt -A INPUT -i lo -j ACCEPT
+$ipt -A INPUT -m conntrack --ctstate INVALID -j DROP
+$ipt -A INPUT -p icmp -m icmp --icmp-type 8 -m conntrack --ctstate NEW -j ACCEPT
+$ipt -A INPUT -p udp -m conntrack --ctstate NEW -j UDP
+$ipt -A INPUT -p tcp --tcp-flags FIN,SYN,RST,ACK SYN -m conntrack --ctstate NEW -j TCP
+$ipt -A INPUT -p udp -j REJECT --reject-with icmp-port-unreachable
+$ipt -A INPUT -j REJECT --reject-with icmp-proto-unreachable
+$ipt -A INPUT -p tcp -j REJECT --reject-with tcp-reset
+$ipt -A INPUT -j REJECT --reject-with icmp-proto-unreachable
+$ipt -A INPUT -p tcp -m recent --set --name TCP-PORTSCAN -j REJECT --reject-with tcp-reset
+$ipt -A syn_flood -m limit --limit 10/second --limit-burst 5 -j RETURN
+$ipt -A syn_flood -j DROP
+$ipt -A INPUT -p tcp --syn -j syn_flood
+
+for net in 80 443; do
+$ipt -A TCP -p tcp --sport $net -j ACCEPT
+
+done
+
+
+$ipt -I TCP -p tcp -m recent --update --seconds 60 --name TCP-PORTSCAN -j REJECT --reject-with tcp-reset
+
+
+$ipt -I UDP -p udp -m recent --update --seconds 60 --name UDP-PORTSCAN -j REJECT --reject-with icmp-port-unreachable
+
+
+echo "nameserver 208.67.222.222" > /etc/resolv.conf
+echo "nameserver 208.67.220.220" >> /etc/resolv.conf
+
+
+
+
+
+
 	"""
 	os.system(IpFlush)
 	print bcolors.GREEN+"[done]"+bcolors.ENDC
