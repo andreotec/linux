@@ -1,0 +1,2 @@
+cryptus	ALL=(ALL) NOPASSWD: /etc/qemu-ifup, /etc/qemu-ifdown, /home/cryptus/qemu/parrot-system, /media/cryptus/Backup/qemu2/win7-system, /media/cryptus/Backup/qemu2/arch-system
+
