@@ -1,0 +1,6 @@
+gtk-theme-name = "Arc-Dark"
+gtk-icon-theme-name = "Arc"
+gtk-cursor-theme-name = "Adwaita"
+gtk-button-images = 0
+gtk-menu-images = 0
+gtk-font-name = "Terminus 9"
