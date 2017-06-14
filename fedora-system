@@ -1,0 +1,6 @@
+#!/bin/sh 
+/etc/qemu-ifup tap0
+
+qemu-system-x86_64 -cpu host -enable-kvm -m 2048 -vga std -hda /home/cryptus/qemu/fedora -net nic -net tap,ifname=tap0,script=no
+/etc/qemu-ifdown tap0
+

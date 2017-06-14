@@ -7,7 +7,7 @@ echo "Aguarde!!!"
 mkdir ogg-music
 cp *.mp3 ogg-music
 cd ogg-music
-for f in ./*.mp3; do ffmpeg -i "$f" -c:a libvorbis -q:a 9 "${f/%mp3/ogg}"; done
+for f in ./*.mp3; do ffmpeg -i "$f" -c:a libvorbis -q:a 192k "${f/%mp3/ogg}"; done
 rm -rf *.mp3
 
 echo "Pronto!!!"
