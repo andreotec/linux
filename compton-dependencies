@@ -1,0 +1,5 @@
+git clone https://github.com/chjj/compton
+cd compton
+ dnf install libXpresent.x86_64 libNX_Xtst.x86_64 xcb-util-image.x86_64  libX11-devel.x86_64  libXft-devel.x86_64 libXinerama-devel.x86_64   libXcomposite-devel.x86_64libXdamage-devel.x86_64  libXrandr-devel.x86_64  libconfig-devel.x86_64  dbus-devel.x86_64  glx-utils.x86_64  mesa-libGL-devel.x86_64  pcre-devel.x86_64 libX11.x86_64 libXcomposite-devel.x86_64 libXdamage-devel.x86_64 libXfixes-devel.x86_64 libXext.x86_64 libXrender.x86_64 pkgconf-pkg-config.x86_64 xorg-x11-utils.x86_64 asciidoc.noarch
+make
+make install
